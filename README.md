@@ -6,7 +6,7 @@ Repositorio del TFG creado por Yesua Ibañez Castrillo
 *Nombre provisional*
 
 ## 🔎 Objetivos  
-- Implementar un sistema de autenticación de usuarios utilizando **Laravel** como backend.  
+- Implementar un sistema de autenticación de usuarios utilizando **Symfony** como backend.  
 - Desarrollar un **frontend en Angular** que permita a los usuarios registrarse, iniciar sesión y visualizar Pokémon.  
 - Usar **MySQL** como BBDD para almacenar a los usuarios.  
 - Realizar llamadas a la **PokeAPI** para cargar la información deseada.  
@@ -18,9 +18,8 @@ Este proyecto permite a los usuarios:
 3. **Proteger rutas y recursos** utilizando autenticación. 
 
 ## 🔨 Tecnologías utilizadas  
-### **Backend (Laravel)**
-- **Laravel** - Framework PHP para el backend.  
-- **Blade** - Motor de plantillas de Laravel para la autenticación.  
+### **Backend (Symfony)**
+- **Symfony** - Framework PHP para el backend.   
 - **MySQL** - Base de datos para almacenar usuarios.  
 - **PokeAPI** - API pública para obtener información de Pokémon.  
 
