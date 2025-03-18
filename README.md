@@ -13,7 +13,7 @@ Repositorio del TFG creado por Yesua Ibañez Castrillo
 
 ## 📝 Temática  
 Este proyecto permite a los usuarios:  
-1. **Registrarse e iniciar sesión** con credenciales almacenadas en una base de datos gestionada por Laravel.  
+1. **Registrarse e iniciar sesión** con credenciales almacenadas en una base de datos gestionada por Symfony.  
 2. **Visualizar una lista de Pokémon** obtenida desde la PokeAPI.  
 3. **Proteger rutas y recursos** utilizando autenticación. 
 
