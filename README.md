@@ -31,7 +31,7 @@ Este proyecto permite a los usuarios:
 
 ***Informacion con posibilidad de cambios***
 
-# Modelo E/R
+# 🖥️ Modelo E/R
 ![Diagrama E/R](img/Modelo_E-R.png)
-# Casos de uso
+# 🙍‍♂️ Casos de uso
 ![Diagrama E/R](img/casos_de_uso.png)
