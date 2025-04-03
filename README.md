@@ -34,3 +34,4 @@ Este proyecto permite a los usuarios:
 # 🖥️ Modelo E/R
 ![Diagrama E/R](img/Modelo_E-R.png)
 # 🙍‍♂️ Casos de uso
+![Diagrama E/R](img/casos_de_uso.png)
