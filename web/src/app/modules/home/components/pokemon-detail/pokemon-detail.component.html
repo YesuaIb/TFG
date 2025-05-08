@@ -1,0 +1,45 @@
+<div *ngIf="pokemonDetail" class="pokemon">
+  <div class="pokemon-detail">
+    <div class="detail">
+      <div class="detail-image">
+        <img [src]="pokemonDetail.sprites.other['official-artwork'].front_default" alt="{{ pokemonDetail.name }}" width="200">
+        <div class="content-id">
+          <span>{{ pokemonDetail.id }}</span>
+        </div>
+      </div>
+
+      <div class="detail-content">
+        <div class="content-title">
+          <h2>{{ pokemonDetail.name | uppercase }}</h2>
+        </div>
+
+        <div class="content-type">
+          <div *ngFor="let type of pokemonDetail.types">
+            <img *ngIf="type.typeDetails?.sprites?.['generation-viii']?.['legends-arceus']?.name_icon"
+              [src]="type.typeDetails.sprites['generation-viii']['legends-arceus'].name_icon"
+              [alt]="type.type.name"
+              width="100">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-info">
+      <p>{{ description }}</p>
+    </div>
+
+    <div class="detail-evolution" *ngIf="evolutionChain.length > 0">
+      <h3>Evoluciones</h3>
+      <div class="evolution-list">
+        <div *ngFor="let evo of evolutionChain" class="evolution-item">
+          <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + evo.id + '.png'"
+               alt="{{ evo.name }}"
+               width="100"
+               height="100"
+               *ngIf="evo.id">
+          <p>{{ evo.name | titlecase }}</p>
+        </div>
+      </div>
+    </div>     
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="matchup">
+    <!-- Fortalezas -->
+<div class="matchup-block">
+    <h3>Fortalezas</h3>
+    <div class="matchup-grid">
+      <div class="matchup-type" *ngFor="let type of getTypeList(strengths)">
+        <span class="type-name">{{ type.name | titlecase }}</span>
+        <span class="type-value">
+          {{ type.value > 0 ? '+' + type.value : type.value }}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Debilidades -->
+  <div class="matchup-block">
+    <h3>Debilidades</h3>
+    <div class="matchup-grid">
+      <div class="matchup-type" *ngFor="let type of getTypeList(weaknesses)">
+        <span class="type-name">{{ type.name | titlecase }}</span>
+        <span class="type-value">
+          {{ type.value > 0 ? '-' + type.value : type.value }}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+</div>

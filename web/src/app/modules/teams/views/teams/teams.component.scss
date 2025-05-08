@@ -1,0 +1,19 @@
+.teams{
+    display: flex;
+    justify-content: space-between;
+
+    height: 100%;
+}
+
+app-team-builder,
+app-team-matchup {
+  flex: 1;
+  max-width: 50%;
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .teams {
+        flex-direction: column;
+    }
+}

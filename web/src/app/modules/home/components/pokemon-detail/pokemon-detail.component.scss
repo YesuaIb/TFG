@@ -1,0 +1,105 @@
+span{
+  line-height: 1;
+}
+
+.pokemon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+  
+.pokemon-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+.detail-image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  width: 100%;
+  max-width: 250px;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.content-id {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgb(51, 51, 51);
+  color: white;
+  font-weight: bold;
+  padding: 8px 10px;
+  border-radius: 10px 0 10px 0;
+  font-size: 0.9rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  width: 2.5rem;
+  text-align: center;
+}
+
+.detail-info {
+  max-width: 100%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.detail-evolution {
+  margin-top: 2rem;
+}
+
+.evolution-list {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.evolution-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+@media (max-width: 768px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-image,
+  .detail-content {
+    align-items: flex-start;
+  }
+
+  .detail-info {
+    text-align: left;
+  }
+}

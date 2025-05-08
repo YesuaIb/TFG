@@ -1,0 +1,28 @@
+<div *ngIf="pokemonList.length > 0" class="pokemons">
+  <div class="pokemon-list">
+    <a *ngFor="let pokemon of pokemonList" class="pokemon-card" [routerLink]="['/pokemon', pokemon.id]">
+      <div class="pokemon-list-title">
+        <h3>{{ pokemon.name | uppercase }}</h3>
+      </div>
+  
+      <div class="pokemon-list-image">
+        <img [src]="pokemon.sprites.other['official-artwork'].front_default" class="pokemon-image" alt="{{ pokemon.name }}">
+      </div>
+  
+      <div class="pokemon-list-info">
+        <div class="pokemon-list-id">
+          <span>{{ pokemon.id }}</span>
+        </div>
+  
+        <div class="pokemon-list-type">
+          <div *ngFor="let type of pokemon.types">
+            <img *ngIf="type.typeDetails?.sprites?.['generation-viii']?.['legends-arceus']?.name_icon"
+              [src]="type.typeDetails.sprites['generation-viii']['legends-arceus'].name_icon"
+              [alt]="type.type.name"
+              width="100">
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

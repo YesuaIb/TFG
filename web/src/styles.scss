@@ -1,0 +1,27 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.app{
+  margin: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  line-height: 1;
+}
+
+p, span, nav{
+  font-family: sans-serif;
+  font-weight: 600;
+}

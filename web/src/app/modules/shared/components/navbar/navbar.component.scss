@@ -1,0 +1,152 @@
+a{
+  display: flex;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 5px 10px;
+  transition: transform 0.1s ease-in-out;
+}
+
+a:hover{
+  transform: scale(1.03);
+  color: rgb(216, 216, 216);
+}
+
+li{
+  transition: transform 0.1s ease-in-out;
+}
+
+li:hover{
+  transform: scale(1.03);
+}
+
+nav {
+  background-color: rgb(51, 51, 51);
+  padding: 10px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo svg {
+  width: 2rem;
+  fill: rgb(255, 255, 255);
+  vertical-align: middle;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.login {
+  display: flex;
+  align-items: center;
+}
+
+.login i {
+  font-size: 25px;
+  color: rgb(255, 255, 255);
+}
+
+.fa-regular {
+  font-size: 1.5rem;
+  color: rgb(255, 255, 255);
+}
+
+// Modal
+.modal-backdrop {
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal {
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  border-radius: 1rem;
+  background-color: transparent;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgb(51, 51, 51);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  width: 30rem;
+}
+
+.modal-header {
+  display: flex;
+  width: 100%;
+  border: none;
+  padding: 0;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  margin: 0 0.5rem 0.5rem 0;
+  margin-left: auto;
+  transition: background-color 0.3s ease;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+.close-button:hover {
+  color: rgb(216, 216, 216);
+}
+
+.back-arrow {
+  font-size: 1.3rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s ease;
+  margin-left: 0.7rem;
+}
+
+.back-arrow:hover {
+  color: rgb(216, 216, 216);
+}
+
+.modal-body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .modal-content {
+    width: 18rem;
+  }
+}
