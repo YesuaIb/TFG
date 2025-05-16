@@ -1,31 +1,3 @@
-<!-- <div class="see-button">
-  <button (click)="abrirModalEquipos()">Ver Equipos</button>
-</div> -->
-
-<!-- Modal Equipos -->
-<!-- <div class="modal-overlay" *ngIf="mostrarModalEquipos">
-  <div class="modal-content">
-    <button class="close-button" (click)="cerrarModalEquipos()">×</button>
-    <div class="modal-teams">
-      <h3>Equipos Guardados</h3>
-      <ul>
-      <li *ngFor="let equipo of equiposUsuario">
-        {{ equipo.nombreEquipo }} (Nº {{ equipo['Nº Equipo'] }})
-      </li>
-    </ul>
-    </div>
-  </div>
-</div>
-
-<div class="teams">
-  <app-team-builder (effectivenessChange)="updateEffectiveness($event)"></app-team-builder>
-  <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra"></app-team-matchup>
-</div>
-
-<div class="save-button">
-  <button class="save-button" (click)="guardarEquipo()">Guardar Equipo</button>
-</div> -->
-
 <!-- Botón para ver equipos -->
 <div class="see-button">
   <button (click)="abrirModalEquipos()">Ver Equipos</button>
@@ -49,10 +21,7 @@
 <!-- Sección de Equipos -->
 <div class="teams">
   <app-team-builder (effectivenessChange)="actualizarEfectividad($event)"></app-team-builder>
-  <app-team-matchup
-    [fuertesContra]="fuertesContra"
-    [debilContra]="debilContra"
-  ></app-team-matchup>
+  <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra" [tipos]="tipos"></app-team-matchup>
 </div>
 
 <!-- Botón para guardar equipo -->

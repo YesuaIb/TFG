@@ -28,7 +28,10 @@ class PokemonItemProvider implements ProviderInterface
         );
 
         $stmt = $pdo->prepare("
-            SELECT p.ID_Pokemon, p.Nombre, p.Imagen, p.`Imagen 2D`, p.Gif, p.Descripcion, p.Altura, p.Peso, p.Habilidades, p.HabilidadOculta, p.Especie, p.Generacion, GROUP_CONCAT(t.Nombre) AS Tipos, GROUP_CONCAT(t.Icono) AS Iconos 
+            SELECT p.ID_Pokemon, p.Nombre, p.Imagen, p.`Imagen 2D`, p.Gif, p.Descripcion, p.Altura, p.Peso, p.Habilidades, p.HabilidadOculta, p.Especie, p.Generacion, 
+            GROUP_CONCAT(t.ID_Tipos) AS TipoIDs,
+            GROUP_CONCAT(t.Nombre) AS Tipos,
+            GROUP_CONCAT(t.Icono) AS Iconos 
             FROM Pokemon p 
             LEFT JOIN Pokemon_Tipo pt ON p.ID_Pokemon = pt.ID_Pokemon 
             LEFT JOIN Tipos t ON pt.ID_Tipo = t.ID_Tipos 
@@ -56,6 +59,7 @@ class PokemonItemProvider implements ProviderInterface
         $dto->especie = $pokemon['Especie'];
         $dto->generacion = $pokemon['Generacion'];
 
+        $tipoIds = $pokemon['TipoIDs'] ? explode(',', $pokemon['TipoIDs']) : [];
         $tipos = $pokemon['Tipos'] ? explode(',', $pokemon['Tipos']) : [];
         $iconos = $pokemon['Iconos'] ? explode(',', $pokemon['Iconos']) : [];
 
@@ -64,6 +68,7 @@ class PokemonItemProvider implements ProviderInterface
         foreach ($tipos as $i => $tipo) {
             if (trim($tipo) !== '') {
                 $dto->tipos[] = [
+                    'id' => isset($tipoIds[$i]) ? (int)$tipoIds[$i] : null,
                     'nombre' => $tipo,
                     'icono' => $iconos[$i] ?? null,
                 ];

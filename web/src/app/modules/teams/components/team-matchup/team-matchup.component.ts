@@ -1,52 +1,3 @@
-// import { Component, Input } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { ApiService } from '../../../core/services/api/api.service';
-
-// @Component({
-//   selector: 'app-team-matchup',
-//   standalone: true,
-//   imports: [CommonModule],
-//   templateUrl: './team-matchup.component.html',
-//   styleUrl: './team-matchup.component.scss',
-// })
-// export class TeamMatchupComponent {
-//   @Input() fuertesContra: Record<string, number> = {};
-//   @Input() debilContra: Record<string, number> = {};
-//   tipos: any;
-
-//   constructor(private apiService: ApiService) { }
-//   alltypes: any[] = [];
-//   ngOnInit(): void {
-//     this.loadTiposChain();
-//   }
-
-//   loadTiposChain() {
-//     const cached = this.apiService.getCachedTipos();
-//     if (cached.length > 0) {
-//       this.tipos = cached;
-//       console.log('Tipos:', this.tipos);
-//     } else {
-//       this.apiService.getAllTipos().subscribe((data) => {
-//         this.tipos = data['member'];
-//         console.log('Tipos:', this.tipos);
-//         this.apiService.saveTiposToCache(this.tipos);
-//       });
-//     }
-//   }
-
-//   getTipoData(nombre: string): any {
-//     return this.tipos?.find((t: any) => t.nombre === nombre);
-//   }
-
-//   getTypeList(obj: Record<string, number>): { nombre: string; valor: number }[] {
-//   return Object.keys(obj).map((nombre: string) => ({
-//     nombre,
-//     valor: obj[nombre]
-//   }));
-// }
-
-// }
-
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../core/services/api/api.service';
@@ -61,10 +12,24 @@ import { ApiService } from '../../../core/services/api/api.service';
 export class TeamMatchupComponent implements OnChanges {
   @Input() fuertesContra: Record<string, number> = {};
   @Input() debilContra: Record<string, number> = {};
+  @Input() tipos: any[] = [];
 
-  tipos: any[] = [];
+  constructor(private apiService: ApiService) { }
 
-  constructor(private apiService: ApiService) {}
+  ngOnInit(): void {
+    if (this.tipos.length === 0) {
+      const cached = this.apiService.getCachedTipos();
+      if (cached.length > 0) {
+        this.tipos = cached;
+      } else {
+        this.apiService.getAllTipos().subscribe((data) => {
+          this.tipos = data['member'];
+          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa", this.tipos)
+          this.apiService.saveTiposToCache(this.tipos);
+        });
+      }
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.tipos.length === 0) {
@@ -80,7 +45,50 @@ export class TeamMatchupComponent implements OnChanges {
     }
   }
 
+  getTipoConEficacia(nombre: string): { nombre: string; icono: string; valor: number } {
+    const tipo = this.tipos.find(t => t.nombre === nombre);
+    const valor = this.fuertesContra[nombre] ?? this.debilContra[nombre] ?? 1;
+    return { nombre, icono: tipo?.icono ?? '', valor };
+  }
+
   getTypeList(obj: Record<string, number>): { nombre: string, valor: number }[] {
     return Object.entries(obj).map(([nombre, valor]) => ({ nombre, valor }));
+  }
+
+  getMultiplicador(nombre: string): number {
+    const fuerte = this.fuertesContra?.[nombre];
+    const debil = this.debilContra?.[nombre];
+
+    const valor = fuerte ?? debil ?? 0;
+    console.log(`Multiplicador para ${nombre}:`, valor);
+    return valor;
+  }
+
+  hasFortalezas(): boolean {
+    return this.tipos.some(t => this.getMultiplicador(t.nombre) > 0);
+  }
+
+  hasDebilidades(): boolean {
+    return this.tipos.some(t => this.getMultiplicador(t.nombre) < 0);
+  }
+
+  getFortaleza(nombre: string): number {
+    const valor = this.fuertesContra?.[nombre] ?? 0;
+    return valor > 0 ? valor : 0;
+  }
+
+  getDebilidad(nombre: string): number {
+    const valor = this.debilContra?.[nombre] ?? 0;
+    return valor < 0 ? valor : 0;
+  }
+
+  formatearValor(valor: number): string {
+    if (valor > 0) {
+      return '+' + valor;
+    } else if (valor < 0) {
+      return valor.toString();
+    } else {
+      return '0';
+    }
   }
 }

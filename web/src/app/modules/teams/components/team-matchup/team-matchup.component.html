@@ -1,51 +1,30 @@
-<!-- <div class="matchup">
-  <div class="matchup-block">
-    <h3>Fortalezas del equipo</h3>
-    <div class="matchup-grid">
-      <div class="matchup-type" *ngFor="let tipo of fuertesContra | keyvalue">
-        <span class="type-name">{{ tipo.key | titlecase }}</span>
-        <span>x{{ tipo.value }}</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="matchup-block">
-    <h3>Debilidades del equipo</h3>
-    <div class="matchup-grid">
-      <div class="matchup-type" *ngFor="let tipo of debilContra | keyvalue">
-        <span class="type-name">{{ tipo.key | titlecase }}</span>
-        <span>x{{ tipo.value }}</span>
-      </div>
-    </div>
-  </div>
 
 
-</div> -->
 <div class="matchup">
-  <!-- Fortalezas -->
+  <!-- FORTALEZAS -->
   <div class="matchup-block">
     <h3>Fortalezas</h3>
     <div class="matchup-grid">
-      <div class="matchup-type" *ngFor="let tipo of getTypeList(fuertesContra)">
+      <div class="matchup-type" *ngFor="let tipo of tipos">
+        <img [src]="'http://localhost:8000' + tipo.icono" width="24" />
         <span class="type-name">{{ tipo.nombre | titlecase }}</span>
-        <span class="type-value">x{{ tipo.valor }}</span>
+        <span class="type-value">
+          {{ getFortaleza(tipo.nombre) > 0 ? '+' + getFortaleza(tipo.nombre) : '0' }}
+        </span>
       </div>
     </div>
   </div>
 
-  <!-- Debilidades -->
+  <!-- DEBILIDADES -->
   <div class="matchup-block">
     <h3>Debilidades</h3>
     <div class="matchup-grid">
-      <div class="matchup-type" *ngFor="let tipo of getTypeList(debilContra)">
+      <div class="matchup-type" *ngFor="let tipo of tipos">
+        <img [src]="'http://localhost:8000' + tipo.icono" width="24" />
         <span class="type-name">{{ tipo.nombre | titlecase }}</span>
-        <span class="type-value">x{{ tipo.valor }}</span>
+        <span class="type-value">
+          {{ getDebilidad(tipo.nombre) < 0 ? getDebilidad(tipo.nombre) : '0' }} </span>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
