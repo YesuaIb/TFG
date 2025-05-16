@@ -49,6 +49,7 @@ class PokemonEvolucionesProvider implements ProviderInterface
 
         // Añadir el Pokémon base
         $linea[] = [
+            'id' => $base['ID_Pokemon'],
             'nombre' => $base['Nombre'],
             'imagen' => $base['Imagen']
         ];
@@ -60,6 +61,7 @@ class PokemonEvolucionesProvider implements ProviderInterface
 
         foreach ($primerNivel as $evo) {
             $linea[] = [
+                'id' => $evo['ID_Pokemon'],
                 'nombre' => $evo['Nombre'],
                 'imagen' => $evo['Imagen']
             ];
@@ -71,6 +73,7 @@ class PokemonEvolucionesProvider implements ProviderInterface
 
             foreach ($siguientes as $evo2) {
                 $linea[] = [
+                    'id' => $evo2['ID_Pokemon'],
                     'nombre' => $evo2['Nombre'],
                     'imagen' => $evo2['Imagen']
                 ];

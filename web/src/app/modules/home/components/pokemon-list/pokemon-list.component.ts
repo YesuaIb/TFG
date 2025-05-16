@@ -12,21 +12,22 @@ import { ApiService } from '../../../core/services/api/api.service';
 })
 export class PokemonListComponent {
   pokemonList: any[] = [];
+  url: string = 'http://localhost:8000';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.loadPokemons();
-  }
+    const cached = this.apiService.getCachedAllPokemons();
 
-  loadPokemons(): void {
-    const pokemonIds = [1, 2, 3, 4, 7, 10, 13, 16, 19, 25, 37, 50, 54, 87, 133, 142, 200, 280, ];
-  
-    pokemonIds.forEach(id => {
-      this.apiService.getPokemonWithTypes(id.toString()).subscribe((data) => {
-        this.pokemonList.push(data);
-        this.pokemonList.sort((a, b) => a.id - b.id);
+    if (cached && cached.length > 0) {
+      this.pokemonList = cached;
+      console.log('Usando caché de Pokémon');
+    } else {
+      this.apiService.getAllPokemons().subscribe((data: any) => {
+        this.pokemonList = data['member'];
+        this.apiService.saveAllPokemonsToCache(data['member']); // Guarda en caché
+        console.log('Pokémon descargados y guardados en caché');
       });
-    });
+    }
   }
 }

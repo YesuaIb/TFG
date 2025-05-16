@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../core/services/api/api.service';
 
 @Component({
   selector: 'app-login',
@@ -11,10 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   @Output() switchToRegister = new EventEmitter<void>();
+  @Output() loginSuccess = new EventEmitter<void>();
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private api: ApiService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
@@ -30,7 +32,18 @@ export class LoginComponent {
     this.submitted = true;
 
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      const credentials = this.loginForm.value;
+
+      this.api.getLogin(credentials).subscribe({
+        next: (user) => {
+          localStorage.setItem('user', JSON.stringify(user));
+          console.log('Usuario logueado:', user);
+          this.loginSuccess.emit();
+        },
+        error: (err) => {
+          console.error('Error de login:', err);
+        }
+      });
     } else {
       this.loginForm.markAllAsTouched();
     }

@@ -1,45 +1,91 @@
 <div *ngIf="pokemonDetail" class="pokemon">
   <div class="pokemon-detail">
-    <div class="detail">
-      <div class="detail-image">
-        <img [src]="pokemonDetail.sprites.other['official-artwork'].front_default" alt="{{ pokemonDetail.name }}" width="200">
-        <div class="content-id">
-          <span>{{ pokemonDetail.id }}</span>
+    <div class="detail-image">
+      <img [src]="url + pokemonDetail.imagen" alt="{{ pokemonDetail.nombre }}" width="200">
+      <div class="content-id">
+        <span>{{ pokemonDetail.id }}</span>
+      </div>
+    </div>
+
+    <div class="detail-content">
+      <div class="content-title">
+        <h2>{{ pokemonDetail.nombre | uppercase }}</h2>
+      </div>
+
+      <div class="content-type">
+        <div *ngFor="let tipo of pokemonDetail.tipos">
+          <img *ngIf="tipo" [src]="url + tipo.icono" [alt]="tipo.nombre" width="100">
         </div>
       </div>
 
-      <div class="detail-content">
-        <div class="content-title">
-          <h2>{{ pokemonDetail.name | uppercase }}</h2>
+      <div class="content-description">
+        <p>{{ pokemonDetail.descripcion }}</p>
+      </div>
+    </div>
+
+    <!-- Evolución -->
+    <div class="detail-evolution" *ngIf="evolutionChain && evolutionChain.length > 0">
+      <h3>Evoluciones</h3>
+      <div class="evolution-chain">
+        <ng-container *ngFor="let evolucion of evolutionChain; let last = last">
+          <a class="evolution-item" [routerLink]="['/pokemon', evolucion.id]">
+            <img
+              [src]="url + evolucion.imagen"
+              alt="{{ evolucion.nombre }}" width="100" height="100" />
+            <span>{{ evolucion.nombre | titlecase }}</span>
+          </a>
+          <div *ngIf="!last" class="evolution-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="24" height="24">
+              <path fill="currentColor"
+                d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+            </svg>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Datos del Pokémon -->
+    <div class="table-info">
+      <h3>Datos del Pokémon</h3>
+      <div class="info-detail">
+        <div class="info-pokemon">
+          <div class="species">
+            <div class="grid-label">Especie</div>
+            <div class="grid-value">{{ pokemonDetail.especie }}</div>
+          </div>
+
+          <div class="height">
+            <div class="grid-label">Altura</div>
+            <div class="grid-value">{{ getFloat(pokemonDetail.altura) }}m</div>
+          </div>
+
+          <div class="weight">
+            <div class="grid-label">Peso</div>
+            <div class="grid-value">{{ getFloat(pokemonDetail.peso) }}kg</div>
+          </div>
         </div>
 
-        <div class="content-type">
-          <div *ngFor="let type of pokemonDetail.types">
-            <img *ngIf="type.typeDetails?.sprites?.['generation-viii']?.['legends-arceus']?.name_icon"
-              [src]="type.typeDetails.sprites['generation-viii']['legends-arceus'].name_icon"
-              [alt]="type.type.name"
-              width="100">
+        <div class="info-pokemon-specific">
+          <div class="generation">
+            <div class="grid-label">Generación</div>
+            <div class="grid-value">{{ pokemonDetail.generacion | uppercase }}</div>
+          </div>
+          
+          <div class="skills">
+            <div class="grid-label">Habilidades</div>
+            <div class="grid-value" style="text-transform: capitalize;">
+              <div *ngFor="let habilidad of pokemonDetail.habilidades; let last = last">
+                {{ habilidad }}<span *ngIf="!last">, </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden-skills">
+            <div class="grid-label">Habilidad oculta</div>
+            <div class="grid-value" style="text-transform: capitalize;">{{ pokemonDetail.habilidadOculta }}</div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="detail-info">
-      <p>{{ description }}</p>
-    </div>
-
-    <div class="detail-evolution" *ngIf="evolutionChain.length > 0">
-      <h3>Evoluciones</h3>
-      <div class="evolution-list">
-        <div *ngFor="let evo of evolutionChain" class="evolution-item">
-          <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/' + evo.id + '.png'"
-               alt="{{ evo.name }}"
-               width="100"
-               height="100"
-               *ngIf="evo.id">
-          <p>{{ evo.name | titlecase }}</p>
-        </div>
-      </div>
-    </div>     
   </div>
 </div>

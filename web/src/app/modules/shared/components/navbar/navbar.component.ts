@@ -3,6 +3,8 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../../../auth/views/login/login.component';
 import { RegisterComponent } from '../../../auth/views/register/register.component';
+import { ModalLoginService } from '../../../core/services/modal-login/modal-login.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +15,14 @@ import { RegisterComponent } from '../../../auth/views/register/register.compone
   encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent {
+  constructor(private modalLoginService: ModalLoginService) {}
+
+  ngOnInit(): void {
+    this.modalLoginService.loginModal$.subscribe(() => {
+      this.openLoginModal();
+    });
+  }
+
   modalLoginOpen = false;
   modalRegisterOpen = false;
 

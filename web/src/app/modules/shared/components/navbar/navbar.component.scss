@@ -54,6 +54,7 @@ ul {
 .login {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .login i {
@@ -142,6 +143,16 @@ ul {
   align-items: center;
   padding: 0;
   height: 100%;
+}
+
+// Menú hamburguesa
+.navbar-toggler {
+  border: none;
+}
+
+.menu-hamburguer svg{
+  fill: white;
+  width: 1.5rem;
 }
 
 // Responsive

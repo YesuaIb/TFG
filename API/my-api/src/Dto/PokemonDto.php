@@ -48,4 +48,22 @@ class PokemonDto
 
     #[Groups(['pokemon:read'])]
     public array $tipos = [];
+
+    #[Groups(['pokemon:read'])]
+    public ?int $altura = null;
+
+    #[Groups(['pokemon:read'])]
+    public ?int $peso = null;
+
+    #[Groups(['pokemon:read'])]
+    public ?array $habilidades = null;
+
+    #[Groups(['pokemon:read'])]
+    public ?string $habilidadOculta = null;
+
+    #[Groups(['pokemon:read'])]
+    public ?string $especie = null;
+
+    #[Groups(['pokemon:read'])]
+    public ?string $generacion = null;
 }
