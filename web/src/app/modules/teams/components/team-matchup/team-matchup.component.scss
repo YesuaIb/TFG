@@ -4,10 +4,9 @@ h3{
 
 .matchup {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   gap: 2rem;
-  padding: 2rem 2rem 0 1rem;
-  margin-bottom: 4.5rem;
   flex-grow: 1;
   justify-content: space-between;
 }
@@ -25,7 +24,7 @@ h3{
 
 .matchup-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1rem;
 }
 

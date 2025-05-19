@@ -1,4 +1,4 @@
-a{
+a {
   display: flex;
   color: rgb(255, 255, 255);
   text-decoration: none;
@@ -6,22 +6,23 @@ a{
   transition: transform 0.1s ease-in-out;
 }
 
-a:hover{
+a:hover {
   transform: scale(1.03);
   color: rgb(216, 216, 216);
 }
 
-li{
+li {
   transition: transform 0.1s ease-in-out;
 }
 
-li:hover{
+li:hover {
   transform: scale(1.03);
 }
 
 nav {
   background-color: rgb(51, 51, 51);
   padding: 10px;
+  margin-bottom: 3rem;
 }
 
 ul {
@@ -54,12 +55,12 @@ ul {
 .login {
   display: flex;
   align-items: center;
-  cursor: pointer;
-}
 
-.login i {
-  font-size: 25px;
-  color: rgb(255, 255, 255);
+  i {
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+  }
 }
 
 .fa-regular {
@@ -150,7 +151,7 @@ ul {
   border: none;
 }
 
-.menu-hamburguer svg{
+.menu-hamburguer svg {
   fill: white;
   width: 1.5rem;
 }

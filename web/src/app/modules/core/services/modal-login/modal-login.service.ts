@@ -1,15 +1,37 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalLoginService {
-  private loginModalSubject = new Subject<void>();
-
+  // Control de visibilidad
+  private loginModalSubject = new BehaviorSubject<boolean>(false);
   loginModal$ = this.loginModalSubject.asObservable();
 
-  openLoginModal(): void {
-    this.loginModalSubject.next();
+  // Control del nombre del usuario logueado
+  private usernameSubject = new BehaviorSubject<string | null>(localStorage.getItem('username'));
+  username$ = this.usernameSubject.asObservable();
+
+  // Abrir y cerrar 
+  openLoginModal() {
+    this.loginModalSubject.next(true);
   }
+
+  closeLoginModal() {
+    this.loginModalSubject.next(false);
+  }
+
+  // Actualizar nombre de usuario
+  setUsername(nombre: string) {
+    this.usernameSubject.next(nombre);
+    localStorage.setItem('username', nombre);
+  }
+
+  // Cerrar sesión
+  logout() {
+    this.usernameSubject.next(null);
+    localStorage.removeItem('username');
+  }
+
 }

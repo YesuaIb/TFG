@@ -1,8 +1,3 @@
-<!-- Botón para ver equipos -->
-<div class="see-button">
-  <button (click)="abrirModalEquipos()">Ver Equipos</button>
-</div>
-
 <!-- Modal de Equipos -->
 <div class="modal-overlay" *ngIf="mostrarModalEquipos">
   <div class="modal-content">
@@ -24,7 +19,14 @@
   <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra" [tipos]="tipos"></app-team-matchup>
 </div>
 
-<!-- Botón para guardar equipo -->
-<div class="save-button">
-  <button class="save-button" (click)="guardarEquipo()">Guardar Equipo</button>
+<div class="teams-buttons">
+  <!-- Botón para ver equipos -->
+  <div class="see-button">
+    <button (click)="abrirModalEquipos()">Ver Equipos</button>
+  </div>
+
+  <!-- Botón para guardar equipo -->
+  <div class="save-button">
+    <button class="save-button" (click)="guardarEquipo()">Guardar Equipo</button>
+  </div>
 </div>

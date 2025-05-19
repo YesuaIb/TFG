@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../core/services/api/api.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
+import { LoginService } from '../../services/login/login.service';
+import { ModalLoginService } from '../../../core/services/modal-login/modal-login.service';
 
 @Component({
   selector: 'app-login',
@@ -11,41 +13,40 @@ import { ApiService } from '../../../core/services/api/api.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  @Output() switchToRegister = new EventEmitter<void>();
-  @Output() loginSuccess = new EventEmitter<void>();
-
   loginForm: FormGroup;
+  submitted = false;
+  errorLogin = false;
 
-  constructor(private fb: FormBuilder, private api: ApiService) {
+  @Output() switchToRegister = new EventEmitter<void>();
+  @Output() loginSuccess = new EventEmitter<string>();
+
+
+  constructor(private fb: FormBuilder, private loginservice: LoginService, private router: Router, private modalLoginService: ModalLoginService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [
-        Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$')
-      ]]
+      password: ['', Validators.required]
     });
   }
 
-  submitted = false;
-
-  onSubmit(): void {
+  onSubmit() {
     this.submitted = true;
+    this.errorLogin = false;
 
-    if (this.loginForm.valid) {
-      const credentials = this.loginForm.value;
+    if (this.loginForm.invalid) return;
 
-      this.api.getLogin(credentials).subscribe({
-        next: (user) => {
-          localStorage.setItem('user', JSON.stringify(user));
-          console.log('Usuario logueado:', user);
-          this.loginSuccess.emit();
-        },
-        error: (err) => {
-          console.error('Error de login:', err);
-        }
-      });
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+    const { email, password } = this.loginForm.value;
+
+    this.loginservice.login(email, password).subscribe({
+      next: (res: any) => {
+        const nombre = res?.nombre ?? '';
+        localStorage.setItem('username', nombre); 
+        this.modalLoginService.setUsername(nombre); 
+        this.loginSuccess.emit(nombre); 
+      },
+      error: () => {
+        this.errorLogin = true;
+      }
+    });
   }
+
 }

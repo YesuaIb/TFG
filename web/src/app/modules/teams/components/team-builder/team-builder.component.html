@@ -33,6 +33,9 @@
     </div>
     <div class="pokemon-image" *ngIf="team[i]">
       <img [src]="url + team[i].gif" />
+      <div *ngFor="let tipo of team[i].tipos">
+        <img [src]="url + tipo.icono"/>
+      </div>
     </div>
   </div>
 </div>

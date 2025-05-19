@@ -25,8 +25,8 @@
 
     <!-- Evolución -->
     <div class="detail-evolution" *ngIf="evolutionChain && evolutionChain.length > 0">
-      <h3>Evoluciones</h3>
       <div class="evolution-chain">
+        <h3 class="evolution-title">Evoluciones</h3>
         <ng-container *ngFor="let evolucion of evolutionChain; let last = last">
           <a class="evolution-item" [routerLink]="['/pokemon', evolucion.id]">
             <img

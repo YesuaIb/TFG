@@ -53,8 +53,10 @@ export class TeamBuilderComponent {
   onPokemonSelected(index: number, pokemonId: number): void {
     this.apiservice.getPokemon(pokemonId).subscribe(pokemon => {
       this.team[index] = pokemon;
+      console.log("pokemon",this.team[index]);
+      
       this.dropdowns[index] = false;
-      this.calcularEfectividad();
+      this.emitEffectiveness();
     });
   }
 
@@ -64,102 +66,54 @@ export class TeamBuilderComponent {
     this.team.forEach(pokemon => {
       if (pokemon?.tipos) {
         pokemon.tipos.forEach((tipo: any) => {
-          if (tipo.id) tipoIds.add(tipo.id);
+          if (tipo.id != null) {
+            tipoIds.add(tipo.id);
+          }
         });
       }
     });
 
     const ids = Array.from(tipoIds);
+
     if (ids.length === 0) {
       this.effectivenessChange.emit({ fuertesContra: {}, debilContra: {} });
       return;
     }
 
     const requests = ids.map(id => this.apiservice.getEfectividad(id));
-    forkJoin(requests).subscribe((respuestas: any[]) => {
 
-      const fuertes: Record<string, number> = {};
-      const debiles: Record<string, number> = {};
+    forkJoin(requests).subscribe((respuestas: any[]) => {
+      const acumulado: Record<string, number> = {};
 
       respuestas.forEach(respuesta => {
         const eficacia = respuesta.eficacia as Record<string, number>;
 
         Object.entries(eficacia).forEach(([tipo, valor]) => {
-          console.log(`✔️ ${tipo} -> ${valor}`);
-          if (valor > 1) {
-            fuertes[tipo] = (fuertes[tipo] || 1) * valor;
-          } else if (valor < 1) {
-            debiles[tipo] = (debiles[tipo] || 1) * valor;
+          if (valor === 2) {
+            acumulado[tipo] = (acumulado[tipo] ?? 0) + 1;
+          } else if (valor === 0.5 || valor === 0) {
+            acumulado[tipo] = (acumulado[tipo] ?? 0) - 1;
           }
+          // valor 1 => no modifica nada
         });
       });
+
+      const fuertes: Record<string, number> = {};
+      const debiles: Record<string, number> = {};
+
+      for (const tipo in acumulado) {
+        const valor = acumulado[tipo];
+        if (valor > 0) fuertes[tipo] = valor;
+        else if (valor < 0) debiles[tipo] = valor;
+        // si es 0 no se añade a ninguno
+      }
+
       this.effectivenessChange.emit({ fuertesContra: fuertes, debilContra: debiles });
     });
-
   }
+
 
   trackByIndex(index: number): number {
     return index;
   }
-  calcularEfectividad(): void {
-
-    // 1. Obtener todos los IDs de los tipos de los Pokémon del equipo
-    const tiposIds: number[] = [];
-
-    this.team.forEach(pokemon => {
-      if (pokemon && Array.isArray(pokemon.tipos)) {
-        pokemon.tipos.forEach((tipo: any) => {
-          if (tipo?.id != null) {
-            tiposIds.push(tipo.id);
-          }
-        });
-      }
-    });
-
-    // 2. Hacer llamadas a la API para obtener la efectividad de cada tipo
-    const peticiones = tiposIds.map(id => this.apiservice.getEfectividad(id));
-
-    // 3. Esperar a que todas las respuestas lleguen
-    forkJoin(peticiones).subscribe(respuestas => {
-      const resultado: { [tipo: string]: number } = {};
-
-      // 4. Procesar cada respuesta
-      respuestas.forEach(res => {
-        const eficacia = res.eficacia;
-
-        // Sumar o restar 1 según la efectividad
-        for (const tipo in eficacia) {
-          const valor = eficacia[tipo];
-
-          if (valor > 1) {
-            resultado[tipo] = (resultado[tipo] || 0) + 1; // fuerte
-          } else if (valor < 1) {
-            resultado[tipo] = (resultado[tipo] || 0) - 1; // débil
-          }
-          // Si es 1, no cambia el resultado
-        }
-      });
-
-      // 5. Separar en tipos fuertes y débiles
-      const fuertes: { [tipo: string]: number } = {};
-      const debiles: { [tipo: string]: number } = {};
-
-      for (const tipo in resultado) {
-        const valor = resultado[tipo];
-        if (valor > 0) {
-          fuertes[tipo] = valor;
-        } else if (valor < 0) {
-          debiles[tipo] = valor;
-        }
-      }
-
-      // 6. Emitir los resultados al componente padre
-      this.effectivenessChange.emit({
-        fuertesContra: fuertes,
-        debilContra: debiles
-      });
-    });
-  }
-
-
 }

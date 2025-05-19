@@ -2,9 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
 }
-  
+
 .pokemon-list {
     display: grid;
     grid-template-columns: repeat(5, 1fr);

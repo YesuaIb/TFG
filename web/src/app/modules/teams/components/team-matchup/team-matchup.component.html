@@ -3,7 +3,7 @@
 <div class="matchup">
   <!-- FORTALEZAS -->
   <div class="matchup-block">
-    <h3>Fortalezas</h3>
+    <h3>Eficaz contra</h3>
     <div class="matchup-grid">
       <div class="matchup-type" *ngFor="let tipo of tipos">
         <img [src]="'http://localhost:8000' + tipo.icono" width="24" />
@@ -17,7 +17,7 @@
 
   <!-- DEBILIDADES -->
   <div class="matchup-block">
-    <h3>Debilidades</h3>
+    <h3>Poco eficaz contra</h3>
     <div class="matchup-grid">
       <div class="matchup-type" *ngFor="let tipo of tipos">
         <img [src]="'http://localhost:8000' + tipo.icono" width="24" />

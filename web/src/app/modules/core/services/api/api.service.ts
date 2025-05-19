@@ -179,15 +179,7 @@ export class ApiService {
   getAllEquipos(id: number, usuarios: string): Observable<any> {
     return this.http.get<any>(`http://localhost:8000/api/${usuarios}/${id}/equipos`);
   }
-
-  getLogin(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post('http://localhost:8000/api/login', credentials);
-  }
-
-  getRegistro(): Observable<any> {
-    return this.http.get<any>(`http://localhost:8000/api/usuarios`);
-  }
-
+  
   getAllPokemons(): Observable<any> {
     return this.http.get<any>(`http://localhost:8000/api/pokemons`);
   }

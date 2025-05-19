@@ -1,10 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../../../auth/views/login/login.component';
 import { RegisterComponent } from '../../../auth/views/register/register.component';
 import { ModalLoginService } from '../../../core/services/modal-login/modal-login.service';
-
 
 @Component({
   selector: 'app-navbar',
@@ -15,24 +14,31 @@ import { ModalLoginService } from '../../../core/services/modal-login/modal-logi
   encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent {
-  constructor(private modalLoginService: ModalLoginService) {}
-
-  ngOnInit(): void {
-    this.modalLoginService.loginModal$.subscribe(() => {
-      this.openLoginModal();
-    });
-  }
+  constructor(private modalLoginService: ModalLoginService, private router: Router) { }
 
   modalLoginOpen = false;
   modalRegisterOpen = false;
+  nombreUsuario: string | null = localStorage.getItem('nombreUsuario');
+
+  ngOnInit(): void {
+    this.modalLoginService.loginModal$.subscribe((show) => {
+      this.modalLoginOpen = show;
+    });
+
+    this.nombreUsuario = localStorage.getItem('username');
+
+    this.modalLoginService.username$.subscribe(nombre => {
+      this.nombreUsuario = nombre;
+    });
+  }
 
   openLoginModal() {
-    this.modalLoginOpen = true;
+    this.modalLoginService.openLoginModal();
     this.modalRegisterOpen = false;
   }
 
   closeLoginModal() {
-    this.modalLoginOpen = false;
+    this.modalLoginService.closeLoginModal();
   }
 
   openRegisterModal() {
@@ -43,4 +49,21 @@ export class NavbarComponent {
   closeRegisterModal() {
     this.modalRegisterOpen = false;
   }
+
+  handleLoginSuccess(nombre: string) {
+    this.nombreUsuario = nombre;
+    this.closeLoginModal();
+  }
+
+  handleRegisterSuccess() {
+    this.closeRegisterModal();
+    this.openLoginModal();
+  }
+
+  logout() {
+    this.modalLoginService.logout();
+    this.nombreUsuario = null;
+    this.router.navigate(['/']);
+  }
+
 }

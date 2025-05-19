@@ -24,7 +24,6 @@ export class TeamMatchupComponent implements OnChanges {
       } else {
         this.apiService.getAllTipos().subscribe((data) => {
           this.tipos = data['member'];
-          console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa", this.tipos)
           this.apiService.saveTiposToCache(this.tipos);
         });
       }
@@ -60,7 +59,7 @@ export class TeamMatchupComponent implements OnChanges {
     const debil = this.debilContra?.[nombre];
 
     const valor = fuerte ?? debil ?? 0;
-    console.log(`Multiplicador para ${nombre}:`, valor);
+
     return valor;
   }
 
@@ -73,13 +72,11 @@ export class TeamMatchupComponent implements OnChanges {
   }
 
   getFortaleza(nombre: string): number {
-    const valor = this.fuertesContra?.[nombre] ?? 0;
-    return valor > 0 ? valor : 0;
+    return this.fuertesContra?.[nombre] ?? 0;
   }
 
   getDebilidad(nombre: string): number {
-    const valor = this.debilContra?.[nombre] ?? 0;
-    return valor < 0 ? valor : 0;
+    return this.debilContra?.[nombre] ?? 0;
   }
 
   formatearValor(valor: number): string {
