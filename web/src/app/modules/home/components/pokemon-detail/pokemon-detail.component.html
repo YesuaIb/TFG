@@ -1,46 +1,27 @@
 <div *ngIf="pokemonDetail" class="pokemon">
   <div class="pokemon-detail">
-    <div class="detail-image">
-      <img [src]="url + pokemonDetail.imagen" alt="{{ pokemonDetail.nombre }}" width="200">
-      <div class="content-id">
-        <span>{{ pokemonDetail.id }}</span>
-      </div>
-    </div>
-
-    <div class="detail-content">
-      <div class="content-title">
-        <h2>{{ pokemonDetail.nombre | uppercase }}</h2>
-      </div>
-
-      <div class="content-type">
-        <div *ngFor="let tipo of pokemonDetail.tipos">
-          <img *ngIf="tipo" [src]="url + tipo.icono" [alt]="tipo.nombre" width="100">
+    <div class="content-pokemon">
+      <div class="detail-image">
+        <img [src]="url + pokemonDetail.imagen" alt="{{ pokemonDetail.nombre }}">
+        <div class="content-id">
+          <span>{{ pokemonDetail.id }}</span>
         </div>
       </div>
 
-      <div class="content-description">
-        <p>{{ pokemonDetail.descripcion }}</p>
-      </div>
-    </div>
+      <div class="detail-content">
+        <div class="content-title">
+          <h2>{{ pokemonDetail.nombre | uppercase }}</h2>
+        </div>
 
-    <!-- Evolución -->
-    <div class="detail-evolution" *ngIf="evolutionChain && evolutionChain.length > 0">
-      <div class="evolution-chain">
-        <h3 class="evolution-title">Evoluciones</h3>
-        <ng-container *ngFor="let evolucion of evolutionChain; let last = last">
-          <a class="evolution-item" [routerLink]="['/pokemon', evolucion.id]">
-            <img
-              [src]="url + evolucion.imagen"
-              alt="{{ evolucion.nombre }}" width="100" height="100" />
-            <span>{{ evolucion.nombre | titlecase }}</span>
-          </a>
-          <div *ngIf="!last" class="evolution-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="24" height="24">
-              <path fill="currentColor"
-                d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
-            </svg>
+        <div class="content-type">
+          <div *ngFor="let tipo of pokemonDetail.tipos">
+            <img *ngIf="tipo" [src]="url + tipo.icono" [alt]="tipo.nombre" width="100">
           </div>
-        </ng-container>
+        </div>
+
+        <div class="content-description">
+          <p>{{ pokemonDetail.descripcion }}</p>
+        </div>
       </div>
     </div>
 
@@ -70,7 +51,7 @@
             <div class="grid-label">Generación</div>
             <div class="grid-value">{{ pokemonDetail.generacion | uppercase }}</div>
           </div>
-          
+
           <div class="skills">
             <div class="grid-label">Habilidades</div>
             <div class="grid-value" style="text-transform: capitalize;">
@@ -88,4 +69,24 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Evolución -->
+    <div class="detail-evolution" *ngIf="evolutionChain && evolutionChain.length > 0">
+      <h3 class="evolution-title">Evoluciones</h3>
+      <div class="evolution-chain">
+        <ng-container *ngFor="let evolucion of evolutionChain; let last = last">
+          <a class="evolution-item" [routerLink]="['/pokemon', evolucion.id]">
+            <img [src]="url + evolucion.imagen" alt="{{ evolucion.nombre }}" width="100" height="100" />
+            <span>{{ evolucion.nombre | titlecase }}</span>
+          </a>
+          <div *ngIf="!last" class="evolution-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="24" height="24">
+              <path fill="currentColor"
+                d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+            </svg>
+          </div>
+        </ng-container>
+      </div>
+    </div>
 </div>

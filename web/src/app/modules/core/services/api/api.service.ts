@@ -23,7 +23,6 @@ export class ApiService {
     const cacheOk = this.restoreCacheFromLocalStorage();
     if (cacheOk) {
       this.initialized = true;
-      console.log('Precarga recuperada desde localStorage');
       return;
     }
 
@@ -176,8 +175,8 @@ export class ApiService {
     return this.http.get<any>(`http://localhost:8000/api/equipos/${id}`);
   }
 
-  getAllEquipos(id: number, usuarios: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:8000/api/${usuarios}/${id}/equipos`);
+  getAllEquiposByUser(id: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8000/api/usuarios/${id}/equipos`);
   }
   
   getAllPokemons(): Observable<any> {
@@ -215,5 +214,10 @@ export class ApiService {
     this.evolucionesCache.forEach((data, id) => {
       localStorage.setItem(`evoluciones_${id}`, JSON.stringify(data));
     });
+  }
+  
+  postTeam(equipo:any){
+    const headers = { 'Content-Type': 'application/ld+json' };
+    return this.http.post('http://localhost:8000/api/equipos', equipo, { headers });
   }
 }

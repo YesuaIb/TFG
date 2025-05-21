@@ -18,14 +18,14 @@ export class NavbarComponent {
 
   modalLoginOpen = false;
   modalRegisterOpen = false;
-  nombreUsuario: string | null = localStorage.getItem('nombreUsuario');
+  nombreUsuario: string | null = null;
 
   ngOnInit(): void {
     this.modalLoginService.loginModal$.subscribe((show) => {
       this.modalLoginOpen = show;
     });
 
-    this.nombreUsuario = localStorage.getItem('username');
+    this.nombreUsuario = localStorage.getItem('username.nombre');
 
     this.modalLoginService.username$.subscribe(nombre => {
       this.nombreUsuario = nombre;
@@ -57,7 +57,6 @@ export class NavbarComponent {
 
   handleRegisterSuccess() {
     this.closeRegisterModal();
-    this.openLoginModal();
   }
 
   logout() {

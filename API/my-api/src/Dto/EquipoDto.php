@@ -49,7 +49,7 @@ class EquipoDto
     public ?int $id = null;
 
     #[Groups(['equipo:read', 'equipo:write'])]
-    public int $usuario;
+    public int $usuario ;
 
     #[Groups(['equipo:read', 'equipo:write'])]
     public int $numero;

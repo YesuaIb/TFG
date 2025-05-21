@@ -14,7 +14,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriTemplate: '/login',
             processor: LoginProcessor::class,
             denormalizationContext: ['groups' => ['login:write']],
-            normalizationContext: ['groups' => ['login:read']]
+            normalizationContext: ['groups' => ['login:read']],
+            
         )
     ]
 )]

@@ -8,6 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class LoginService {
   constructor(private http: HttpClient) { }
+  
   login(correo: string, pass: string) {
     const body = { correo, pass };
     const headers = { 'Content-Type': 'application/ld+json' };

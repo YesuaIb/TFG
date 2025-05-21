@@ -25,13 +25,13 @@ export class ModalLoginService {
   // Actualizar nombre de usuario
   setUsername(nombre: string) {
     this.usernameSubject.next(nombre);
-    localStorage.setItem('username', nombre);
   }
 
   // Cerrar sesión
   logout() {
     this.usernameSubject.next(null);
     localStorage.removeItem('username');
+    localStorage.removeItem('equipos');
   }
 
 }

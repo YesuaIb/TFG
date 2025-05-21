@@ -13,20 +13,77 @@
   </div>
 </div>
 
-<!-- Sección de Equipos -->
-<div class="teams">
-  <app-team-builder (effectivenessChange)="actualizarEfectividad($event)"></app-team-builder>
-  <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra" [tipos]="tipos"></app-team-matchup>
-</div>
-
-<div class="teams-buttons">
-  <!-- Botón para ver equipos -->
-  <div class="see-button">
-    <button (click)="abrirModalEquipos()">Ver Equipos</button>
+<!-- Componentes "Team Builder" y "Team Matchup" y botones "Ver Equipos" y "Guardar Equipos" -->
+<div class="teams-wrapper">
+  <div class="teams">
+    <app-team-builder (equipoChange)="actualizarEquipo($event)"
+      (effectivenessChange)="actualizarEfectividad($event)"></app-team-builder>
+    <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra" [tipos]="tipos"></app-team-matchup>
   </div>
 
-  <!-- Botón para guardar equipo -->
-  <div class="save-button">
-    <button class="save-button" (click)="guardarEquipo()">Guardar Equipo</button>
+  <div class="teams-buttons">
+    <div class="see-button">
+      <button (click)="abrirModalEquipos()">Ver Equipos</button>
+    </div>
+    <div class="save-button">
+      <button (click)="guardarEquipo()">Guardar Equipo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop - Modal para "Guardar Equipo" -->
+<div class="modal-backdrop" *ngIf="mostrarModalGuardarEquipo" (click)="cerrarModalGuardarEquipo()"></div>
+
+<!-- Modal de Equipos -->
+<div class="modal-overlay" *ngIf="mostrarModalEquipos">
+  <div class="modal-content">
+    <button class="close-button" (click)="cerrarModalEquipos()">×</button>
+    <div class="modal-teams">
+      <h3>Equipos Guardados</h3>
+      <ul>
+        <li *ngFor="let equipo of equiposUsuario">
+          <strong>{{ equipo.nombreEquipo }}</strong>
+          <ul>
+            <li *ngFor="let pokemon of equipo.pokemons">
+              {{ pokemon }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para "Guardar Equipo" -->
+<div class="modal" *ngIf="mostrarModalGuardarEquipo">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <button class="close-button" (click)="cerrarModalGuardarEquipo()">×</button>
+    </div>
+    <div class="form-container">
+      <form (ngSubmit)="submitGuardarEquipo()" #guardarForm="ngForm" class="form-save-team">
+        <h2>Guardar Equipo</h2>
+
+        <!-- Campo nombre del equipo -->
+        <div class="input-group">
+          <label for="nombreEquipo">Nombre del Equipo</label>
+          <div class="input-icon">
+            <input type="text" name="nombreEquipo" [(ngModel)]="nombreEquipo" pattern="^[a-zA-Z0-9 ]{5,}$" #nombreEquipoRef="ngModel" required placeholder="Nombre del Equipo" />
+            <i class="fa fa-pen"></i>
+          </div>
+
+          <!-- Mensaje de error -->
+          <div *ngIf="nombreEquipoRef.invalid && nombreEquipoRef.touched" class="error-msg">
+            El nombre debe tener al menos 5 caracteres.
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="buttons" style="display: flex; justify-content: space-between; gap: 1rem;">
+          <button class="modal-cancel-button" type="button" (click)="cerrarModalGuardarEquipo()">Cancelar</button>
+          <button class="modal-save-button" type="submit" [disabled]="!guardarForm.form.valid">Guardar</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

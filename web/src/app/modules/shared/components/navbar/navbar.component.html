@@ -87,7 +87,7 @@
       <button class="close-button" (click)="closeRegisterModal()">×</button>
     </div>
     <div class="modal-body">
-      <app-register (switchToLogin)="openLoginModal()" (registerSuccess)="handleRegisterSuccess()">
+      <app-register (registerSuccess)="handleRegisterSuccess()">
       </app-register>
     </div>
   </div>

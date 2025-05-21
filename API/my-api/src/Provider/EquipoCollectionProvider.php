@@ -36,10 +36,7 @@ class EquipoCollectionProvider implements ProviderInterface
             $dto->id = (int) $equipo['ID_Equipo'];
             $dto->nombre = $equipo['Nombre_Equipo'];
             $dto->numero = $equipo['Numero_Equipo'];
-            $dto->usuario = [
-                'id' => (int) $equipo['ID_Usuario'],
-                'nombre' => $equipo['UsuarioNombre']
-            ];
+            $dto->usuario = (int) $equipo['ID_Usuario'];
 
             // Obtener Pokémon del equipo
             $stmtPokemons = $pdo->prepare("

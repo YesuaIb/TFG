@@ -1,12 +1,10 @@
-
-
 <div class="matchup">
   <!-- FORTALEZAS -->
   <div class="matchup-block">
     <h3>Eficaz contra</h3>
     <div class="matchup-grid">
       <div class="matchup-type" *ngFor="let tipo of tipos">
-        <img [src]="'http://localhost:8000' + tipo.icono" width="24" />
+        <img [src]="'http://localhost:8000' + tipo.icono" width="55" />
         <span class="type-name">{{ tipo.nombre | titlecase }}</span>
         <span class="type-value">
           {{ getFortaleza(tipo.nombre) > 0 ? '+' + getFortaleza(tipo.nombre) : '0' }}
@@ -20,7 +18,7 @@
     <h3>Poco eficaz contra</h3>
     <div class="matchup-grid">
       <div class="matchup-type" *ngFor="let tipo of tipos">
-        <img [src]="'http://localhost:8000' + tipo.icono" width="24" />
+        <img [src]="'http://localhost:8000' + tipo.icono" width="55" />
         <span class="type-name">{{ tipo.nombre | titlecase }}</span>
         <span class="type-value">
           {{ getDebilidad(tipo.nombre) < 0 ? getDebilidad(tipo.nombre) : '0' }} </span>

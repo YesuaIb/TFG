@@ -12,7 +12,9 @@ import { forkJoin } from 'rxjs';
   styleUrl: './team-builder.component.scss'
 })
 export class TeamBuilderComponent {
+  //eventos de emision
   @Output() effectivenessChange = new EventEmitter<{ fuertesContra: any, debilContra: any }>();
+  @Output() equipoChange = new EventEmitter<number[]>();
 
   team: any[] = new Array(6).fill(null);
   filteredLists = new Array(6).fill([]);
@@ -27,6 +29,8 @@ export class TeamBuilderComponent {
     this.apiservice.getAllPokemons().subscribe((data: any) => {
       this.allPokemon = data['member'];
     });
+    this.emitEffectiveness();
+    this.emitirEquipo();
   }
 
   toggleDropdown(index: number): void {
@@ -48,15 +52,17 @@ export class TeamBuilderComponent {
     this.team[index] = null;
     this.dropdowns[index] = false;
     this.emitEffectiveness();
+    this.emitirEquipo();
   }
 
   onPokemonSelected(index: number, pokemonId: number): void {
     this.apiservice.getPokemon(pokemonId).subscribe(pokemon => {
       this.team[index] = pokemon;
-      console.log("pokemon",this.team[index]);
-      
+      console.log("pokemon", this.team[index]);
+
       this.dropdowns[index] = false;
       this.emitEffectiveness();
+      this.emitirEquipo();
     });
   }
 
@@ -94,7 +100,7 @@ export class TeamBuilderComponent {
           } else if (valor === 0.5 || valor === 0) {
             acumulado[tipo] = (acumulado[tipo] ?? 0) - 1;
           }
-          // valor 1 => no modifica nada
+
         });
       });
 
@@ -105,15 +111,22 @@ export class TeamBuilderComponent {
         const valor = acumulado[tipo];
         if (valor > 0) fuertes[tipo] = valor;
         else if (valor < 0) debiles[tipo] = valor;
-        // si es 0 no se añade a ninguno
       }
 
       this.effectivenessChange.emit({ fuertesContra: fuertes, debilContra: debiles });
     });
   }
 
-
   trackByIndex(index: number): number {
     return index;
+  }
+
+  emitirEquipo(): void {
+    const ids = this.team
+      .filter(pokemon => pokemon !== null)
+      .map(pokemon => pokemon.id);
+    console.log("ids", ids);
+    
+    this.equipoChange.emit(ids);
   }
 }
