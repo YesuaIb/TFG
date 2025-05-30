@@ -46,7 +46,7 @@ class EquiposPorUsuarioProvider implements ProviderInterface
             $dto->usuario = (int)$equipo['ID_Usuario'];
 
             $stmtPokemons = $pdo->prepare("
-                SELECT p.ID_Pokemon, p.Nombre, p.Imagen
+                SELECT p.ID_Pokemon, p.Nombre, p.`Imagen 2D`
                 FROM Equipos_Pokemon ep
                 JOIN Pokemon p ON ep.ID_Pokemon = p.ID_Pokemon
                 WHERE ep.ID_Equipo = ?
@@ -58,7 +58,7 @@ class EquiposPorUsuarioProvider implements ProviderInterface
                 $dto->pokemons[] = [
                     'id' => (int) $poke['ID_Pokemon'],
                     'nombre' => $poke['Nombre'],
-                    'imagen' => $poke['Imagen']
+                    'imagen' => $poke['Imagen 2D']
                 ];
             }
 

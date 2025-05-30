@@ -3,20 +3,6 @@ p {
   color: rgb(255, 255, 255);
 }
 
-// Modal
-.modal-overlay {
-  display: flex;
-  margin: 2rem 0 0 2rem;
-}
-
-.modal-content {
-  padding: 1.5rem;
-}
-
-.close-button {
-  line-height: 0;
-}
-
 // Estilos de la vista y sus componentes
 .teams {
   display: flex;
@@ -31,7 +17,7 @@ app-team-matchup {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  min-width: 40rem;
+  min-width: 0;
 }
 
 // Contenedor botones "Ver Equipos" y "Guardar Equipo"
@@ -48,16 +34,16 @@ app-team-matchup {
   display: flex;
   justify-content: flex-end;
   transition: transform 0.1s ease-in-out;
-  width: 11rem;
 }
 
 .see-button button {
   padding: 0.5rem 1.5rem;
   border: none;
-  background-color: rgb(51, 51, 51);
+  background-color: rgb(0, 123, 255);
   color: rgb(255, 255, 255);
   font-weight: bold;
   border-radius: 10px;
+  width: 11rem;
 }
 
 .see-button button:hover {
@@ -68,35 +54,50 @@ app-team-matchup {
 .save-button {
   display: flex;
   transition: transform 0.1s ease-in-out;
-  width: 11rem;
 }
 
 .save-button button {
   padding: 0.5rem 1.5rem;
   border: none;
-  background-color: rgb(51, 51, 51);
+  background-color: rgb(0, 123, 255);
   color: rgb(255, 255, 255);
   font-weight: bold;
   border-radius: 10px;
+  width: 11rem;
 }
 
 .save-button button:hover {
   transform: scale(1.03);
 }
 
-// Modal "Guardar Equipo"
-.form-container {
+// Modales "Ver Equipos" y "Guardar Equipo"
+.modal-overlay {
+  display: flex;
+  margin: 2rem 0 0 2rem;
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.close-button {
+  line-height: 0;
+}
+
+.form-container,
+.modal-teams {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
 }
 
-.form-save-team {
+.form-save-team,
+.see-teams {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(15px);
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: rgb(255, 255, 255);
   width: 22rem;
@@ -106,6 +107,24 @@ app-team-matchup {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   margin: 1rem 0 1.5rem 0;
   font-weight: 600;
+}
+
+.see-teams {
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+.see-teams::-webkit-scrollbar {
+  width: 6px;
+}
+
+.see-teams::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.see-teams-title {
+  text-align: center;
 }
 
 .login-form h2 {
@@ -167,27 +186,79 @@ app-team-matchup {
   font-weight: 500;
 }
 
+.my-teams {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1.5rem;
+
+  .my-team {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+
+.teams-check {
+  ul {
+    transition: transform 0.1s ease-in-out;
+  }
+
+  ul:hover {
+    transform: scale(1.03);
+    background-color: rgba(255, 255, 255, 0.212);
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 10px;
+  }
+}
+
+.team-button {
+  padding: 0.4rem 0.7rem;
+  background-color: rgb(0, 123, 255);
+  border: none;
+  border-radius: 8px;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.team-button:hover {
+  background-color: rgb(0, 86, 179);
+}
 
 // Responsive
+@media (min-width: 768px) {
+
+  app-team-builder,
+  app-team-matchup {
+    min-width: 40rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .teams {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
 @media (max-width: 480px) {
   .teams {
     display: block;
   }
 
   .teams-buttons {
-    flex-direction: column;
+    margin-top: 1rem;
+  }
+
+  .save-button,
+  .see-button {
+    width: 8rem;
   }
 
   .see-button {
-    margin-top: 1.5rem;
-    margin-left: 0 !important;
-  }
-
-  .save-button {
-    margin-bottom: 1rem;
-  }
-
-  app-team-builder{
-    min-width: 0;
+    justify-content: flex-start;
   }
 }

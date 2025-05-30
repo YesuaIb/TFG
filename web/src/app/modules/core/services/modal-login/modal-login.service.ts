@@ -33,5 +33,4 @@ export class ModalLoginService {
     localStorage.removeItem('username');
     localStorage.removeItem('equipos');
   }
-
 }

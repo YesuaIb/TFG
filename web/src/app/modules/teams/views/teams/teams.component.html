@@ -1,22 +1,7 @@
-<!-- Modal de Equipos -->
-<div class="modal-overlay" *ngIf="mostrarModalEquipos">
-  <div class="modal-content">
-    <button class="close-button" (click)="cerrarModalEquipos()">×</button>
-    <div class="modal-teams">
-      <h3>Equipos Guardados</h3>
-      <ul>
-        <li *ngFor="let equipo of equiposUsuario">
-          {{ equipo.nombreEquipo }} (Nº {{ equipo['Nº Equipo'] }})
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
 <!-- Componentes "Team Builder" y "Team Matchup" y botones "Ver Equipos" y "Guardar Equipos" -->
 <div class="teams-wrapper">
   <div class="teams">
-    <app-team-builder (equipoChange)="actualizarEquipo($event)"
+    <app-team-builder #teamBuilder (equipoChange)="actualizarEquipo($event)"
       (effectivenessChange)="actualizarEfectividad($event)"></app-team-builder>
     <app-team-matchup [fuertesContra]="fuertesContra" [debilContra]="debilContra" [tipos]="tipos"></app-team-matchup>
   </div>
@@ -31,44 +16,56 @@
   </div>
 </div>
 
-<!-- Backdrop - Modal para "Guardar Equipo" -->
-<div class="modal-backdrop" *ngIf="mostrarModalGuardarEquipo" (click)="cerrarModalGuardarEquipo()"></div>
 
-<!-- Modal de Equipos -->
-<div class="modal-overlay" *ngIf="mostrarModalEquipos">
+<!-- Capa inferior del modal "Ver Equipos" -->
+<div class="modal-backdrop" *ngIf="mostrarModalEquipos" (click)="cerrarModalEquipos()"></div>
+
+<!-- Modal para "Ver Equipos" -->
+<div class="modal" *ngIf="mostrarModalEquipos">
   <div class="modal-content">
-    <button class="close-button" (click)="cerrarModalEquipos()">×</button>
+    <div class="modal-header">
+      <i class="fa-solid fa-xmark close-button" (click)="cerrarModalEquipos()"></i>
+    </div>
     <div class="modal-teams">
-      <h3>Equipos Guardados</h3>
-      <ul>
-        <li *ngFor="let equipo of equiposUsuario">
-          <strong>{{ equipo.nombreEquipo }}</strong>
-          <ul>
-            <li *ngFor="let pokemon of equipo.pokemons">
-              {{ pokemon }}
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <div class="see-teams">
+        <h3 class="see-teams-title">Equipos guardados</h3>
+        <ul class="my-teams">
+          <li class="my-team" *ngFor="let equipo of equiposGuardados">
+            {{ equipo.nombre }}
+            <div class="teams-check">
+              <ul (click)="cargarEquipo(equipo)">
+                <li *ngFor="let pokemon of equipo.pokemons">
+                  <img [src]="url+pokemon.imagen" alt="">
+                </li>
+              </ul>
+            </div>
+            <button class="team-button" (click)="cargarEquipo(equipo)"> Cargar equipo </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Capa inferior del modal "Guardar Equipo" -->
+<div class="modal-backdrop" *ngIf="mostrarModalGuardarEquipo" (click)="cerrarModalGuardarEquipo()"></div>
 
 <!-- Modal para "Guardar Equipo" -->
 <div class="modal" *ngIf="mostrarModalGuardarEquipo">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <button class="close-button" (click)="cerrarModalGuardarEquipo()">×</button>
+      <i class="fa-solid fa-xmark close-button" (click)="cerrarModalGuardarEquipo()"></i>
     </div>
     <div class="form-container">
       <form (ngSubmit)="submitGuardarEquipo()" #guardarForm="ngForm" class="form-save-team">
-        <h2>Guardar Equipo</h2>
+        <h2>Guardar equipo</h2>
 
         <!-- Campo nombre del equipo -->
         <div class="input-group">
-          <label for="nombreEquipo">Nombre del Equipo</label>
+          <label for="nombreEquipo">Nombre del equipo</label>
           <div class="input-icon">
-            <input type="text" name="nombreEquipo" [(ngModel)]="nombreEquipo" pattern="^[a-zA-Z0-9 ]{5,}$" #nombreEquipoRef="ngModel" required placeholder="Nombre del Equipo" />
+            <input type="text" name="nombreEquipo" [(ngModel)]="nombreEquipo" pattern="^[a-zA-Z0-9 ]{5,}$"
+              #nombreEquipoRef="ngModel" required placeholder="Nombre del Equipo" />
             <i class="fa fa-pen"></i>
           </div>
 

@@ -15,7 +15,7 @@ export class ApiService {
   private allPokemons: any[] = [];
   private allTipos: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   preload(): void {
     if (this.initialized) return;
@@ -178,7 +178,7 @@ export class ApiService {
   getAllEquiposByUser(id: number): Observable<any> {
     return this.http.get<any>(`http://localhost:8000/api/usuarios/${id}/equipos`);
   }
-  
+
   getAllPokemons(): Observable<any> {
     return this.http.get<any>(`http://localhost:8000/api/pokemons`);
   }
@@ -215,8 +215,8 @@ export class ApiService {
       localStorage.setItem(`evoluciones_${id}`, JSON.stringify(data));
     });
   }
-  
-  postTeam(equipo:any){
+
+  postTeam(equipo: any) {
     const headers = { 'Content-Type': 'application/ld+json' };
     return this.http.post('http://localhost:8000/api/equipos', equipo, { headers });
   }

@@ -24,12 +24,14 @@ export class NavbarComponent {
     this.modalLoginService.loginModal$.subscribe((show) => {
       this.modalLoginOpen = show;
     });
+    const user = localStorage.getItem('username');
+    if (user) {
+      const userData = JSON.parse(user);
 
-    this.nombreUsuario = localStorage.getItem('username.nombre');
-
-    this.modalLoginService.username$.subscribe(nombre => {
-      this.nombreUsuario = nombre;
-    });
+      this.nombreUsuario = userData.nombre;
+    } else {
+      this.nombreUsuario = null;
+    }
   }
 
   openLoginModal() {
@@ -59,10 +61,14 @@ export class NavbarComponent {
     this.closeRegisterModal();
   }
 
+  onRegisterSuccess(nombre: string): void {
+    this.nombreUsuario = nombre;
+    this.closeRegisterModal();
+  }
+
   logout() {
     this.modalLoginService.logout();
     this.nombreUsuario = null;
     this.router.navigate(['/']);
   }
-
 }

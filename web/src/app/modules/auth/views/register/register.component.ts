@@ -16,7 +16,7 @@ import { ApiService } from '../../../core/services/api/api.service';
 })
 export class RegisterComponent {
   @Output() switchToLogin = new EventEmitter<void>();
-  @Output() registerSuccess = new EventEmitter<void>();
+  @Output() registerSuccess = new EventEmitter<string>();
   submitted = false;
   registerForm: FormGroup;
   cantidadEquipos: number = 0;
@@ -30,7 +30,7 @@ export class RegisterComponent {
     private apiservice: ApiService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern("^[a-zA-ZÀ-ÿ\\s]{2,}$")]],
+      name: ['', [Validators.required, Validators.pattern(/^.{2,}$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -73,8 +73,9 @@ export class RegisterComponent {
               this.cantidadEquipos = equipos['member'].length;
               localStorage.setItem('equipos', this.cantidadEquipos.toString());
             });
+
             this.modalLoginService.setUsername(nombre);
-            this.registerSuccess.emit();
+            this.registerSuccess.emit(nombre);
           },
           error: (err) => {
             console.error('Login automático fallido:', err);

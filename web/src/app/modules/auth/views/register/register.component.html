@@ -9,7 +9,8 @@
         <input type="text" id="register-name" formControlName="name" />
         <i class="fa fa-user"></i>
       </div>
-      <div *ngIf="(submitted || registerForm.get('name')?.touched) && registerForm.get('name')?.invalid" class="error-msg">
+      <div *ngIf="(submitted || registerForm.get('name')?.touched) && registerForm.get('name')?.invalid"
+        class="error-msg">
         <div *ngIf="registerForm.get('name')?.errors?.['required']">El nombre es obligatorio.</div>
         <div *ngIf="registerForm.get('name')?.errors?.['pattern']">Debe tener mínimo 2 carácteres</div>
       </div>
@@ -22,7 +23,8 @@
         <input type="email" id="register-email" formControlName="email" placeholder="ejemplo@correo.com" />
         <i class="fa fa-envelope"></i>
       </div>
-      <div *ngIf="(submitted || registerForm.get('email')?.touched) && registerForm.get('email')?.invalid" class="error-msg">
+      <div *ngIf="(submitted || registerForm.get('email')?.touched) && registerForm.get('email')?.invalid"
+        class="error-msg">
         <div *ngIf="registerForm.get('email')?.errors?.['required']">El correo es obligatorio.</div>
         <div *ngIf="registerForm.get('email')?.errors?.['email']">El formato no es válido.</div>
       </div>
@@ -35,7 +37,8 @@
         <input type="password" id="register-password" formControlName="password" />
         <i class="fa fa-lock"></i>
       </div>
-      <div *ngIf="(submitted || registerForm.get('password')?.touched) && registerForm.get('password')?.invalid" class="error-msg">
+      <div *ngIf="(submitted || registerForm.get('password')?.touched) && registerForm.get('password')?.invalid"
+        class="error-msg">
         <div *ngIf="registerForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
         <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
           Debe tener 8 caracteres, con al menos una mayúscula, un número y un carácter especial (!,?,*,...).

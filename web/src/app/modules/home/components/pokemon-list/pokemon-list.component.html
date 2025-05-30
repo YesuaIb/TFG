@@ -4,16 +4,16 @@
       <div class="pokemon-list-title">
         <h3>{{ pokemon.nombre | uppercase }}</h3>
       </div>
-  
+
       <div class="pokemon-list-image">
         <img [src]="url + pokemon.imagen" class="pokemon-image" alt="{{ pokemon.nombre }}">
       </div>
-  
+
       <div class="pokemon-list-info">
         <div class="pokemon-list-id">
           <span>{{ pokemon.id }}</span>
         </div>
-  
+
         <div class="pokemon-list-type">
           <div *ngFor="let tipo of pokemon.tipos">
             <img *ngIf="tipo" [src]="url + tipo.icono" [alt]="tipo.nombre" width="100">

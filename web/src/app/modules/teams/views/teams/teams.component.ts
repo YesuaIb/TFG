@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TeamBuilderComponent } from '../../components/team-builder/team-builder.component';
@@ -15,7 +15,8 @@ import { ModalLoginService } from '../../../core/services/modal-login/modal-logi
   styleUrl: './teams.component.scss'
 })
 export class TeamsComponent {
-
+  @ViewChild('teamBuilder') teamBuilder!: TeamBuilderComponent;
+  url = 'http://localhost:8000';
   fuertesContra: Record<string, number> = {};
   debilContra: Record<string, number> = {};
   tipos: any[] = [];
@@ -23,7 +24,7 @@ export class TeamsComponent {
   mostrarModalLogin = false;
   mostrarModalGuardarEquipo = false;
   nombreEquipo: string = '';
-  equiposUsuario: any[] = [];
+  equiposGuardados: any[] = [];
   equipoActual: number[] = [];
 
 
@@ -43,33 +44,36 @@ export class TeamsComponent {
   }
 
   abrirModalEquipos(): void {
-    const user = localStorage.getItem('user');
+    const user = localStorage.getItem('username');
+
     if (!user) {
       this.modalLoginService.openLoginModal();
       return;
     }
+    this.equiposGuardados = []; // limpiamos el modal
+
     const userId = JSON.parse(user).id;
     const allPokemons = this.apiservice.getCachedAllPokemons();
 
-    this.apiservice.getEquipos().subscribe((equipos) => {
-      const equiposFiltrados = equipos['hydra:member']
-        .filter((equipo: any) => equipo.usuario?.id === userId)
-        .map((equipo: any) => {
-          return {
-            nombreEquipo: equipo.nombreEquipo,
-            pokemons: equipo.pokemons.map((id: number) => {
-              const encontrado = allPokemons.find((p: any) => p.id === id);
-              return encontrado ? encontrado.nombre : `ID ${id}`;
-            })
-          };
+    this.apiservice.getAllEquiposByUser(userId).subscribe((equipos) => {
+      const equiposFiltrados = equipos['member'];
+      equiposFiltrados.forEach((equipo: any) => {
+        console.log(equipo);
+        this.equiposGuardados.push({
+          nombre: equipo.nombre,
+          pokemons: equipo.pokemons.map((pokemon: any) => ({
+            id: pokemon.id,
+            imagen: pokemon.imagen
+          }))
         });
-
-      this.equiposUsuario = equiposFiltrados;
+      });
+      console.log(this.equiposGuardados);
       this.mostrarModalEquipos = true;
     });
   }
 
   cerrarModalEquipos(): void {
+    this.equiposGuardados = [];
     this.mostrarModalEquipos = false;
   }
 
@@ -94,7 +98,6 @@ export class TeamsComponent {
       this.modalLoginService.openLoginModal();
     } else {
       this.mostrarModalGuardarEquipo = true;
-
     }
   }
 
@@ -104,13 +107,10 @@ export class TeamsComponent {
 
   submitGuardarEquipo(): void {
     if (!this.nombreEquipo.trim()) return;
-    // this.apiservice.postTeam({'nombre': 'test hacer dinámico', 'numero': 1, 'usuario': user.id, 'pokemons': this.equipoActual}).subscribe((resp:any) => {
-    // })
     let user: any = localStorage.getItem('username');
     const equiposStr = localStorage.getItem('equipos');
     let cantidadEquipos: number = equiposStr ? parseInt(equiposStr) : 0;
     user = JSON.parse(user);
-
 
     const nuevoEquipo = {
       nombre: this.nombreEquipo,
@@ -125,5 +125,16 @@ export class TeamsComponent {
       cantidadEquipos++;
       localStorage.setItem('equipos', cantidadEquipos.toString());
     });
+  }
+
+  cargarEquipo(equipo: any): void {
+    const equipoCompleto = equipo.pokemons.map((p: any) => ({ id: p.id }));
+
+    this.equipoActual = equipoCompleto;
+    console.log('equipo cargado', this.equipoActual);
+
+    this.teamBuilder.cargarDesdePadre(equipoCompleto);
+
+    this.mostrarModalEquipos = false;
   }
 }

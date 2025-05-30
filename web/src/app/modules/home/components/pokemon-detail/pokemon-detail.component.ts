@@ -45,7 +45,6 @@ export class PokemonDetailComponent {
     }
   }
 
-
   getFloat(numero: number): string {
     return (numero / 10).toFixed(2);
   }
@@ -62,6 +61,4 @@ export class PokemonDetailComponent {
       });
     }
   }
-
-
 }

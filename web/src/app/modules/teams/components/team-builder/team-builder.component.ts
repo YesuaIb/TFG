@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../core/services/api/api.service';
@@ -20,7 +20,6 @@ export class TeamBuilderComponent {
   filteredLists = new Array(6).fill([]);
   dropdowns: boolean[] = new Array(6).fill(false);
   allPokemon: any[] = [];
-
   url = 'http://localhost:8000';
 
   constructor(private apiservice: ApiService) { }
@@ -31,6 +30,22 @@ export class TeamBuilderComponent {
     });
     this.emitEffectiveness();
     this.emitirEquipo();
+  }
+
+  ngOnChanges(): void {
+    this.team.forEach((p, i) => {
+      if (p) {
+        console.log(`#${i} →`, {
+          id: p.id,
+          nombre: p.nombre,
+          icono: p.icono,
+          gif: p.gif,
+          tipos: p.tipos
+        });
+      } else {
+        console.log(`#${i} → vacío`);
+      }
+    });
   }
 
   toggleDropdown(index: number): void {
@@ -67,26 +82,24 @@ export class TeamBuilderComponent {
   }
 
   emitEffectiveness(): void {
-    const tipoIds = new Set<number>();
+    const tipoIds: number[] = [];
 
     this.team.forEach(pokemon => {
       if (pokemon?.tipos) {
         pokemon.tipos.forEach((tipo: any) => {
           if (tipo.id != null) {
-            tipoIds.add(tipo.id);
+            tipoIds.push(tipo.id);
           }
         });
       }
     });
 
-    const ids = Array.from(tipoIds);
-
-    if (ids.length === 0) {
+    if (tipoIds.length === 0) {
       this.effectivenessChange.emit({ fuertesContra: {}, debilContra: {} });
       return;
     }
 
-    const requests = ids.map(id => this.apiservice.getEfectividad(id));
+    const requests = tipoIds.map(id => this.apiservice.getEfectividad(id));
 
     forkJoin(requests).subscribe((respuestas: any[]) => {
       const acumulado: Record<string, number> = {};
@@ -100,7 +113,6 @@ export class TeamBuilderComponent {
           } else if (valor === 0.5 || valor === 0) {
             acumulado[tipo] = (acumulado[tipo] ?? 0) - 1;
           }
-
         });
       });
 
@@ -113,7 +125,10 @@ export class TeamBuilderComponent {
         else if (valor < 0) debiles[tipo] = valor;
       }
 
-      this.effectivenessChange.emit({ fuertesContra: fuertes, debilContra: debiles });
+      this.effectivenessChange.emit({
+        fuertesContra: fuertes,
+        debilContra: debiles
+      });
     });
   }
 
@@ -125,8 +140,25 @@ export class TeamBuilderComponent {
     const ids = this.team
       .filter(pokemon => pokemon !== null)
       .map(pokemon => pokemon.id);
-    console.log("ids", ids);
-    
+
     this.equipoChange.emit(ids);
+  }
+
+  public cargarDesdePadre(pokemons: any[]): void {
+    this.effectivenessChange.emit({ fuertesContra: {}, debilContra: {} });//limpiar valores
+    this.team = [];
+
+    const requests = pokemons.map(p =>
+      this.apiservice.getPokemon(p.id)
+    );
+
+    console.log("🧩 IDs recibidos del padre:", pokemons.map(p => p.id));
+    forkJoin(requests).subscribe((pokemonsCompletos: any[]) => {
+      this.team = [...pokemonsCompletos];
+      while (this.team.length < 6) this.team.push(null);
+
+      this.emitEffectiveness();
+      this.emitirEquipo();
+    });
   }
 }

@@ -2,27 +2,25 @@ a {
   display: flex;
   color: rgb(255, 255, 255);
   text-decoration: none;
-  padding: 5px 10px;
-  transition: transform 0.1s ease-in-out;
 }
 
 a:hover {
-  transform: scale(1.03);
   color: rgb(216, 216, 216);
 }
 
-li {
-  transition: transform 0.1s ease-in-out;
-}
-
-li:hover {
-  transform: scale(1.03);
-}
-
 nav {
-  background-color: rgb(51, 51, 51);
+  background-color: rgb(34, 34, 34);
   padding: 10px;
   margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
 }
 
 ul {
@@ -39,6 +37,10 @@ ul {
 .logo {
   display: flex;
   align-items: center;
+
+  span {
+    margin-left: 0.6rem;
+  }
 }
 
 .logo svg {
@@ -47,9 +49,24 @@ ul {
   vertical-align: middle;
 }
 
+.logo svg:hover {
+  fill: rgb(216, 216, 216);
+}
+
+.navigation {
+  display: flex;
+  gap: 0.6rem;
+  margin-left: 0.6rem;
+}
+
 .menu {
   display: flex;
-  gap: 20px;
+  gap: 3rem;
+  position: absolute;
+  left: 51%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .login {
@@ -60,7 +77,16 @@ ul {
     font-size: 25px;
     color: rgb(255, 255, 255);
     cursor: pointer;
+    margin-left: 0.7rem;
   }
+
+  a {
+    padding: 0;
+  }
+}
+
+.login i:hover {
+  color: rgb(216, 216, 216);
 }
 
 .fa-regular {
@@ -110,10 +136,10 @@ ul {
 .close-button {
   background: transparent;
   border: none;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: rgb(255, 255, 255);
   cursor: pointer;
-  margin: 0 0.5rem 0.5rem 0;
+  margin: 0.5rem 0.5rem 0.5rem 0;
   margin-left: auto;
   transition: background-color 0.3s ease;
   line-height: 1;
@@ -126,7 +152,7 @@ ul {
 
 .back-arrow {
   font-size: 1.3rem;
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   z-index: 10;
   transition: color 0.2s ease;
@@ -149,14 +175,37 @@ ul {
 // Menú hamburguesa
 .navbar-toggler {
   border: none;
+  padding: 0;
 }
 
 .menu-hamburguer svg {
-  fill: white;
+  fill: rgb(255, 255, 255);
   width: 1.5rem;
 }
 
+
 // Responsive
+@media (max-width: 768px) {
+  .logo,
+  .login {
+    span {
+      display: none;
+    }
+  }
+
+  .navbar-toggler,
+  .login {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .login {
+    justify-content: flex-end;
+  }
+}
+
 @media (max-width: 480px) {
   .modal-content {
     width: 18rem;
