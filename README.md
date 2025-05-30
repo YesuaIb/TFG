@@ -3,7 +3,6 @@ Repositorio del TFG creado por Yesua Ibañez Castrillo
 
 # ✏️ Título
 **PokeStrategy** 
-*Nombre provisional*
 
 ## 🔎 Objetivos  
 - Implementar un sistema de autenticación de usuarios utilizando **Symfony** como backend.  
@@ -28,8 +27,6 @@ Este proyecto permite a los usuarios:
 - **TypeScript** - Lenguaje de programación para Angular.  
 - **Tailwind CSS / SASS** - Para el diseño y estilizado.  
 
-
-***Informacion con posibilidad de cambios***
 
 # 🖥️ Modelo E/R
 ![Diagrama E/R](img/Modelo_E-R.png)
