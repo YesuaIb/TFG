@@ -202,6 +202,10 @@ app-team-matchup {
 .teams-check {
   ul {
     transition: transform 0.1s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   ul:hover {
