@@ -58,7 +58,6 @@ export class TeamsComponent {
     this.apiservice.getAllEquiposByUser(userId).subscribe((equipos) => {
       const equiposFiltrados = equipos['member'];
       equiposFiltrados.forEach((equipo: any) => {
-        console.log(equipo);
         this.equiposGuardados.push({
           nombre: equipo.nombre,
           pokemons: equipo.pokemons.map((pokemon: any) => ({
@@ -67,7 +66,6 @@ export class TeamsComponent {
           }))
         });
       });
-      console.log(this.equiposGuardados);
       this.mostrarModalEquipos = true;
     });
   }
@@ -93,7 +91,6 @@ export class TeamsComponent {
   guardarEquipo(): void {
     let user: any = localStorage.getItem('username');
     user = JSON.parse(user);
-    console.log(user);
     if (!user) {
       this.modalLoginService.openLoginModal();
     } else {
@@ -131,7 +128,6 @@ export class TeamsComponent {
     const equipoCompleto = equipo.pokemons.map((p: any) => ({ id: p.id }));
 
     this.equipoActual = equipoCompleto;
-    console.log('equipo cargado', this.equipoActual);
 
     this.teamBuilder.cargarDesdePadre(equipoCompleto);
 
